@@ -22,3 +22,14 @@ tester x y z = x + y + z
 -- constructor, use the Maybe type to refer to a node's children.
 data Tree a = Node (Maybe a) (Maybe (Tree a)) (Maybe (Tree a))
             deriving (Show)
+                     
+length' :: [a] -> Int
+length' = foldr (\_ acc -> succ acc) 0
+
+mean :: [Int] -> Double
+mean xs = sum' / length'
+  where sum' = fromIntegral (sum xs)
+        length' = fromIntegral (length xs)
+        
+palindrome :: [a] -> [a]
+palindrome xs = xs ++ reverse xs
