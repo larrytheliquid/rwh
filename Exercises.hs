@@ -1,3 +1,5 @@
+import Test.QuickCheck
+
 lastButOne :: [a] -> a
 lastButOne (x:(_:[])) = x
 lastButOne (x:xs) = lastButOne xs
@@ -27,9 +29,9 @@ length' :: [a] -> Int
 length' = foldr (\_ acc -> succ acc) 0
 
 mean :: [Int] -> Double
-mean xs = sum' / length'
-  where sum' = fromIntegral (sum xs)
-        length' = fromIntegral (length xs)
+mean xs = floatSum xs / floatLength xs
+  where floatSum = fromIntegral . sum
+        floatLength = fromIntegral . length
         
 palindrome :: [a] -> [a]
 palindrome xs = xs ++ reverse xs
