@@ -18,6 +18,9 @@ fromList [] = Nil
 toList (Cons x xs) = x : toList xs
 toList Nil = []
 
+prop_inverse_fromList :: [Int] -> Bool
+prop_inverse_fromList xs = toList (fromList xs) == xs
+
 tester x y z = x + y + z
 
 -- Define a tree type that has only one constructor, like our Java example. Instead of the Empty 
@@ -35,3 +38,5 @@ mean xs = floatSum xs / floatLength xs
         
 palindrome :: [a] -> [a]
 palindrome xs = xs ++ reverse xs
+
+main = quickCheck prop_inverse_fromList
