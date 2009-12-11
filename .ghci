@@ -1,4 +1,5 @@
 -- :set -XNoImplicitPrelude
 -- :set -Werror
-:set Wall
-:set -fnowarn-implicit-prelude
+:set -Wall
+:unset -fwarn-implicit-prelude
+:unset -fwarn-missing-signatures

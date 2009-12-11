@@ -1,8 +1,9 @@
 import Test.QuickCheck
 
 lastButOne :: [a] -> a
+lastButOne [] = error "wups"
 lastButOne (x:(_:[])) = x
-lastButOne (x:xs) = lastButOne xs
+lastButOne (_:xs) = lastButOne xs
 
 data List a = Cons a (List a)
             | Nil
