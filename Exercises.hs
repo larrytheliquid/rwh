@@ -27,7 +27,7 @@ tester x y z = x + y + z
 
 -- Define a tree type that has only one constructor, like our Java example. Instead of the Empty 
 -- constructor, use the Maybe type to refer to a node's children.
-data Tree a = Node (Maybe a) (Maybe (Tree a)) (Maybe (Tree a))
+data MyTree a = MyNode (Maybe a) (Maybe (MyTree a)) (Maybe (MyTree a))
             deriving (Show)
                      
 length' :: [a] -> Int
@@ -50,6 +50,18 @@ intersperse _ [] = []
 intersperse _ (xs:[]) = xs
 intersperse sep (xs:xss) = foldr appendSeparated xs xss
   where appendSeparated ys acc = acc ++ sep:ys
+        
+data Tree a = Node a (Tree a) (Tree a)
+            | Empty
+            deriving (Show)
+                     
+height :: Tree a -> Int
+height Empty = 0
+height (Node _ l r)
+  | leftHeight >= rightHeight = leftHeight
+  | otherwise = rightHeight
+    where leftHeight = succ (height l)
+          rightHeight = succ (height r)
 
 
 main = quickCheck prop_inverse_fromList
