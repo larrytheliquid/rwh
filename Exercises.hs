@@ -20,8 +20,8 @@ fromList [] = Nil
 toList (Cons x xs) = x : toList xs
 toList Nil = []
 
-prop_inverse_fromList :: [Int] -> Bool
-prop_inverse_fromList xs = toList (fromList xs) == xs
+prop_fromList_inverse :: [Int] -> Bool
+prop_fromList_inverse xs = toList (fromList xs) == xs
 
 tester x y z = x + y + z
 
@@ -75,5 +75,29 @@ turn a b c
         rightCross = (coordY b - coordY a) * (coordX c - coordX a)
         crossProduct = leftCross - rightCross
 
+directionTriples :: [Point] -> [Direction]
+directionTriples [] = []
+directionTriples (a:b:c:points) = turn a b c : directionTriples points
 
-main = quickCheck prop_inverse_fromList
+safeHead [] = Nothing
+safeHead xs = Just (head xs)
+
+safeTail [] = Nothing
+safeTail xs = Just (tail xs)
+
+safeLast [] = Nothing
+safeLast xs = Just (tail xs)
+
+safeInit [] = Nothing
+safeInit xs = Just (init xs)
+
+splitWith :: (a -> Bool) -> [a] -> [[a]]
+splitWith _ [] = []
+splitWith f list
+  | null good = splitWith f (dropWhile (not.f) rest)
+  | otherwise = good : splitWith f rest
+  where (good,rest) = span f list
+
+prop_splitWith_filtered :: [Int] -> Bool
+prop_splitWith_filtered xs = all even (concat result)
+  where result = splitWith even xs
