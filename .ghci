@@ -3,3 +3,4 @@
 :set -Wall
 :unset -fwarn-implicit-prelude
 :unset -fwarn-missing-signatures
+:unset -fwarn-type-defaults

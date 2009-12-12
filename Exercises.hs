@@ -1,8 +1,9 @@
+import Data.List
 import Test.QuickCheck
 
 lastButOne :: [a] -> a
 lastButOne [] = error "wups"
-lastButOne (x:(_:[])) = x
+lastButOne (x:_:[]) = x
 lastButOne (_:xs) = lastButOne xs
 
 data List a = Cons a (List a)
@@ -39,5 +40,16 @@ mean xs = floatSum xs / floatLength xs
         
 palindrome :: [a] -> [a]
 palindrome xs = xs ++ reverse xs
+
+sortByLength :: [[a]] -> [[a]]
+sortByLength xs = sortBy comparedList xs
+  where comparedList x y = compare (length x) (length y)
+        
+intersperse :: a -> [[a]] -> [a]
+intersperse _ [] = []
+intersperse _ (xs:[]) = xs
+intersperse sep (xs:xss) = foldr appendSeparated xs xss
+  where appendSeparated ys acc = acc ++ sep:ys
+
 
 main = quickCheck prop_inverse_fromList
