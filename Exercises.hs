@@ -63,5 +63,17 @@ height (Node _ l r)
     where leftHeight = succ (height l)
           rightHeight = succ (height r)
 
+data Direction = DLeft | DRight | DStraight
+data Point = Point { coordX :: Int, coordY :: Int }
+
+turn :: Point -> Point -> Point -> Direction
+turn a b c
+  | crossProduct == 0 = DStraight
+  | crossProduct > 0 = DLeft
+  | crossProduct < 0 = DRight
+  where leftCross = (coordX b - coordX a) * (coordY c - coordY a)
+        rightCross = (coordY b - coordY a) * (coordX c - coordX a)
+        crossProduct = leftCross - rightCross
+
 
 main = quickCheck prop_inverse_fromList
