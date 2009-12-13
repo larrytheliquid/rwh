@@ -18,4 +18,4 @@ main = mainWith myFunction
 
         myFunction = firstOfEachLine
         
-transposeText text = unlines (transpose (lines "hello\nworld\n"))
+transposeText text = unlines (transpose (lines text))
