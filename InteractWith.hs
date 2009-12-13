@@ -1,3 +1,4 @@
+import Data.List
 import System.Environment (getArgs)
 
 firstOfEachLine text = unwords firstWords
@@ -16,3 +17,5 @@ main = mainWith myFunction
             _ -> putStrLn "error: exactly two arguments needed"
 
         myFunction = firstOfEachLine
+        
+transposeText text = unlines (transpose (lines "hello\nworld\n"))
