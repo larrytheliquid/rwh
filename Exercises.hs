@@ -1,5 +1,6 @@
 import Data.List
 import Test.QuickCheck
+import Data.Char
 
 lastButOne :: [a] -> a
 lastButOne [] = error "wups"
@@ -101,3 +102,26 @@ splitWith f list
 prop_splitWith_filtered :: [Int] -> Bool
 prop_splitWith_filtered xs = all even (concat result)
   where result = splitWith even xs
+
+asInt_fold :: String -> Int
+asInt_fold ('-':str) = negate (asInt_fold str)
+asInt_fold str = foldl f 0 str
+  where f acc x = acc * 10 + digitToInt x
+        
+checkDigits :: [Char] -> Either Char Bool
+checkDigits [] = Right True
+checkDigits (x:xs)
+  | isDigit x = checkDigits xs
+  | otherwise = Left x
+
+type ErrorMessage = String
+asInt_either :: String -> Either ErrorMessage Int
+asInt_either ('-':str) = case result of
+  Right r -> Right (negate r)
+  Left _ -> result
+  where result = asInt_either str
+asInt_either str = case checkedDigits of
+  Right _ -> Right (foldl f 0 str)
+  Left c -> Left ("non-digit '" ++ c:"'")
+  where checkedDigits = checkDigits str
+        f acc x = acc * 10 + digitToInt x
