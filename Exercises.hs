@@ -158,3 +158,10 @@ myGroupBy f (x:xs) = (x:aGroup) : myGroupBy f rest
         
 prop_myGroupBy_model :: [Int] -> Bool
 prop_myGroupBy_model xs = myGroupBy (==) xs == groupBy (==) xs
+
+myAny :: (a -> Bool) -> [a] -> Bool
+myAny f xs = foldr f' False xs
+  where f' x acc = f x || acc
+        
+prop_myAny_model :: [Int] -> Bool
+prop_myAny_model xs = myAny even xs == any even xs
