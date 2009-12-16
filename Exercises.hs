@@ -151,3 +151,10 @@ prop_takeWhile_foldr_model :: [Int] -> Bool
 prop_takeWhile_foldr_model xs = 
   takeWhile_foldr even xs == takeWhile even xs
   
+myGroupBy :: (a -> a -> Bool) -> [a] -> [[a]]
+myGroupBy _ [] = []
+myGroupBy f (x:xs) = (x:aGroup) : myGroupBy f rest
+  where (aGroup, rest) = span (f x) xs
+        
+prop_myGroupBy_model :: [Int] -> Bool
+prop_myGroupBy_model xs = myGroupBy (==) xs == groupBy (==) xs
