@@ -125,3 +125,29 @@ asInt_either str = case checkedDigits of
   Left c -> Left ("non-digit '" ++ c:"'")
   where checkedDigits = checkDigits str
         f acc x = acc * 10 + digitToInt x
+        
+concat_foldr :: [[a]] -> [a]
+concat_foldr xs = foldr f [] xs
+  where f x acc =  x ++ acc
+        
+prop_concat_foldr_model :: [[Int]] -> Bool
+prop_concat_foldr_model xs = concat_foldr xs == concat xs
+
+takeWhile_rec :: (a -> Bool) -> [a] -> [a]
+takeWhile_rec _ [] = []
+takeWhile_rec f (x:xs)
+  | f x = x : takeWhile_rec f xs
+  | otherwise = []
+
+prop_takeWhile_rec_model :: [Int] -> Bool
+prop_takeWhile_rec_model xs = 
+  takeWhile_rec even xs == takeWhile even xs
+  
+takeWhile_foldr :: (a -> Bool) -> [a] -> [a]
+takeWhile_foldr p xs = foldr f [] xs
+  where f x acc = if p x then x:acc else []
+
+prop_takeWhile_foldr_model :: [Int] -> Bool
+prop_takeWhile_foldr_model xs = 
+  takeWhile_foldr even xs == takeWhile even xs
+  
